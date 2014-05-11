@@ -5,10 +5,12 @@ import eekysam.flipdeck.math.UtilsMath;
 public class Deck
 {
 	private final int[] deck;
+	public final int size;
 	
 	private Deck(int[] order) throws Exception
 	{
 		this.deck = order;
+		size = order.length;
 		if (!this.checkValid())
 		{
 			throw new Exception("Order is not a valid order!");
@@ -17,7 +19,7 @@ public class Deck
 	
 	public int rotate(int number)
 	{
-		if (number >= this.deck.length || number < 0)
+		if (number >= this.size || number < 0)
 		{
 			return -1;
 		}
@@ -38,8 +40,8 @@ public class Deck
 	
 	public int[] rotateAll()
 	{
-		int[] r = new int[this.deck.length];
-		for (int i = 0; i < r.length; i++)
+		int[] r = new int[this.size];
+		for (int i = 0; i < this.size; i++)
 		{
 			r[i] = this.rotateUnchecked(i);
 		}
@@ -104,5 +106,20 @@ public class Deck
 		{
 			return null;
 		}
+	}
+	
+	public static Deck newInstance(int size)
+	{
+		int[] order = new int[size];
+		if (size % 2 == 1)
+		{
+			order[size - 1] = size / 2;
+		}
+		for (int i = 0; i < size / 2; i++)
+		{
+			order[i * 2] = i;
+			order[i * 2 + 1] = size - (i + 1);
+		}
+		return newInstance(order);
 	}
 }

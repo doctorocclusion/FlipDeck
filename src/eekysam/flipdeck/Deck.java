@@ -1,5 +1,7 @@
 package eekysam.flipdeck;
 
+import eekysam.flipdeck.math.UtilsMath;
+
 public class Deck
 {
 	private final int[] deck;
@@ -11,6 +13,42 @@ public class Deck
 		{
 			throw new Exception("Order is not a valid order!");
 		}
+	}
+	
+	public int rotate(int number)
+	{
+		if (number >= this.deck.length || number < 0)
+		{
+			return -1;
+		}
+		return this.rotateUnchecked(number);
+	}
+	
+	private int rotateUnchecked(int number)
+	{
+		int i = 1;
+		int j = this.deck[number];
+		while (j != number)
+		{
+			j = this.deck[j];
+			i++;
+		}
+		return i;
+	}
+	
+	public int[] rotateAll()
+	{
+		int[] r = new int[this.deck.length];
+		for (int i = 0; i < r.length; i++)
+		{
+			r[i] = this.rotateUnchecked(i);
+		}
+		return r;
+	}
+	
+	public int rotateNumber()
+	{
+		return UtilsMath.lcm(this.rotateAll());
 	}
 	
 	@Deprecated
